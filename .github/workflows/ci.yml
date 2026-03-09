@@ -5,8 +5,6 @@ on:
     branches: [ "main" ]
 
 env:
-  FRONTEND_IMAGE: ghcr.io/${{ github.repository }}/frontend
-  BACKEND_IMAGE: ghcr.io/${{ github.repository }}/backend
   DEPLOY_DIR: /root/music_list
 
 jobs:
@@ -16,8 +14,19 @@ jobs:
       contents: read
       packages: write
 
+    outputs:
+      frontend_image: ${{ steps.vars.outputs.frontend_image }}
+      backend_image: ${{ steps.vars.outputs.backend_image }}
+
     steps:
       - uses: actions/checkout@v4
+
+      - name: Set image names (lowercase)
+        id: vars
+        run: |
+          REPO=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+          echo "frontend_image=ghcr.io/${REPO}/frontend" >> $GITHUB_OUTPUT
+          echo "backend_image=ghcr.io/${REPO}/backend"   >> $GITHUB_OUTPUT
 
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
@@ -35,7 +44,7 @@ jobs:
           context: .
           file: apps/frontend/Dockerfile
           push: true
-          tags: ${{ env.FRONTEND_IMAGE }}:latest
+          tags: ${{ steps.vars.outputs.frontend_image }}:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -45,7 +54,7 @@ jobs:
           context: .
           file: apps/backend/Dockerfile
           push: true
-          tags: ${{ env.BACKEND_IMAGE }}:latest
+          tags: ${{ steps.vars.outputs.backend_image }}:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -77,6 +86,8 @@ jobs:
 
       - name: Deploy
         run: |
+          REPO=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+
           sshpass -p "${{ secrets.SUDO_PASSWORD }}" ssh \
             -o StrictHostKeyChecking=no \
             ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "
@@ -86,7 +97,7 @@ jobs:
             echo '${{ secrets.GITHUB_TOKEN }}' | \
               docker login ghcr.io -u '${{ github.actor }}' --password-stdin &&
 
-            export GITHUB_REPOSITORY='${{ github.repository }}' &&
+            export GITHUB_REPOSITORY='${REPO}' &&
 
             docker compose pull &&
             docker compose up -d &&

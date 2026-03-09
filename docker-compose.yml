@@ -18,6 +18,3 @@ services:
       - "3005:80"
     depends_on:
       - backend
-
-# Nginx Proxy Manager управляет SSL и маршрутизацией — своего nginx не нужно
-# certbot тоже не нужен — SSL в Nginx Proxy Manager
