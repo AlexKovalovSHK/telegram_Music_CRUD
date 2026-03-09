@@ -6,8 +6,8 @@ import { Piece } from './pieces/piece.entity';
 @Module({
     imports: [
         TypeOrmModule.forRoot({
-            type: 'better-sqlite3',
-            database: 'data/db.sqlite',
+            type: 'libsql' as any,
+            url: `file:${process.env.DB_PATH ?? 'data/db.sqlite'}`,
             entities: [Piece],
             synchronize: true,
         }),

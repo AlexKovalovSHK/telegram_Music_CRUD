@@ -21,7 +21,7 @@
 | 1.2 | Создать `apps/frontend` через `bun create vite` с шаблоном `react-ts` | `apps/frontend/` |
 | 1.3 | Создать `apps/backend` через `bun create nestjs` | `apps/backend/` |
 | 1.4 | Установить зависимости фронтенда: `@tanstack/react-query`, `bootstrap`, `react-bootstrap`, `@telegram-apps/sdk-react` | `apps/frontend/package.json` |
-| 1.5 | Установить зависимости бэкенда: `@nestjs/typeorm`, `typeorm`, `better-sqlite3`, `class-validator`, `class-transformer` | `apps/backend/package.json` |
+| 1.5 | Установить зависимости бэкенда: `@nestjs/typeorm`, `typeorm`, `@libsql/client`, `class-validator`, `class-transformer` | `apps/backend/package.json` |
 | 1.6 | Добавить корневые скрипты: `dev`, `build`, `test` через `bun --filter '*'` | `/package.json` |
 | 1.7 | Добавить `bunfig.toml` с настройкой workspaces | `/bunfig.toml` |
 

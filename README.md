@@ -8,7 +8,7 @@
 - **Frontend**: React + TypeScript + Vite
 - **UI**: React-Bootstrap + Telegram Mini Apps SDK
 - **Backend**: NestJS + TypeORM
-- **БАЗА ДАННЫХ**: SQLite (`better-sqlite3`)
+- **БАЗА ДАННЫХ**: SQLite (@libsql/client)
 - **State Management**: TanStack Query (React Query)
 
 ## Структура проекта
