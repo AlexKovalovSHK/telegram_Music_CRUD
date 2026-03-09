@@ -1,6 +1,7 @@
 import type { Piece, CreatePiecePayload, UpdatePiecePayload } from '../types/piece';
 
-const BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:3000';
+//const BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:3000';
+const BASE = '/api';
 
 export const fetchPieces = (): Promise<Piece[]> =>
     fetch(`${BASE}/pieces`).then(r => {
